@@ -1,0 +1,1778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💍 Wedding Planner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --rose: #c0587e;
+  --rose-dark: #8b2252;
+  --rose-light: #f7d6e4;
+  --gold: #c9a84c;
+  --gold-dark: #8b6914;
+  --gold-light: #f5edd8;
+  --cream: #fdf8f0;
+  --ink: #2a1f1f;
+  --muted: #7a6a6a;
+  --bg: #faf6f0;
+  --white: #ffffff;
+  --green: #2e7d32;
+  --green-bg: #e8f5e9;
+  --red: #c62828;
+  --red-bg: #ffebee;
+  --amber: #e65100;
+  --amber-bg: #fff3e0;
+  --border: #e8ddd4;
+  --shadow: 0 4px 24px rgba(42,31,31,0.08);
+  --shadow-lg: 0 12px 48px rgba(42,31,31,0.14);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Jost', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+/* ─── SIDEBAR ─────────────────────────────────────────────────────────────── */
+.layout { display: flex; min-height: 100vh; }
+
+.sidebar {
+  width: 260px;
+  min-width: 260px;
+  background: var(--ink);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.sidebar-brand {
+  padding: 32px 24px 24px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.sidebar-brand h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 0.04em;
+  line-height: 1.3;
+}
+.sidebar-brand p {
+  font-size: 11px;
+  color: rgba(255,255,255,0.35);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+.sidebar-couple {
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.sidebar-couple input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: rgba(255,255,255,0.8);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px;
+  font-style: italic;
+  width: 100%;
+  text-align: center;
+}
+.sidebar-couple input::placeholder { color: rgba(255,255,255,0.25); }
+
+.countdown-pill {
+  margin: 16px 24px;
+  background: var(--rose-dark);
+  border-radius: 100px;
+  padding: 10px 16px;
+  text-align: center;
+}
+.countdown-pill .days {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--white);
+  line-height: 1;
+}
+.countdown-pill .days-label {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  margin-top: 2px;
+}
+
+.sidebar-date {
+  padding: 0 24px 12px;
+  text-align: center;
+}
+.sidebar-date input {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  color: rgba(255,255,255,0.7);
+  font-family: 'Jost', sans-serif;
+  font-size: 12px;
+  padding: 6px 10px;
+  width: 100%;
+  outline: none;
+}
+.sidebar-date input:focus { border-color: var(--gold); }
+
+.sidebar-nav { flex: 1; padding: 16px 0; }
+.nav-section { padding: 6px 24px 4px; font-size: 9px; text-transform: uppercase; letter-spacing: 0.15em; color: rgba(255,255,255,0.25); }
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 24px;
+  cursor: pointer;
+  color: rgba(255,255,255,0.55);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  transition: all 0.2s;
+  border-left: 3px solid transparent;
+}
+.nav-item:hover { color: rgba(255,255,255,0.85); background: rgba(255,255,255,0.04); }
+.nav-item.active { color: var(--gold); border-left-color: var(--gold); background: rgba(201,168,76,0.08); }
+.nav-item .icon { font-size: 16px; width: 20px; text-align: center; }
+
+/* ─── MAIN ────────────────────────────────────────────────────────────────── */
+.main {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.topbar h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  font-weight: 400;
+  color: var(--ink);
+}
+.topbar-actions { display: flex; gap: 10px; }
+
+.btn {
+  font-family: 'Jost', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 8px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+}
+.btn-gold { background: var(--gold); color: var(--white); }
+.btn-gold:hover { background: var(--gold-dark); }
+.btn-outline { background: transparent; border: 1px solid var(--border); color: var(--muted); }
+.btn-outline:hover { border-color: var(--rose); color: var(--rose); }
+.btn-rose { background: var(--rose); color: var(--white); }
+.btn-rose:hover { background: var(--rose-dark); }
+.btn-sm { padding: 5px 12px; font-size: 11px; }
+.btn-danger { background: var(--red); color: white; }
+.btn-danger:hover { background: #a31515; }
+
+.content { flex: 1; padding: 32px; overflow-y: auto; }
+
+/* ─── TABS ────────────────────────────────────────────────────────────────── */
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ─── CARDS & GRIDS ──────────────────────────────────────────────────────── */
+.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px; }
+.kpi-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+.kpi-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+.kpi-card.rose::before { background: var(--rose); }
+.kpi-card.gold::before { background: var(--gold); }
+.kpi-card.green::before { background: var(--green); }
+.kpi-card.amber::before { background: var(--amber); }
+
+.kpi-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 8px; }
+.kpi-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 34px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--ink);
+}
+.kpi-sub { font-size: 12px; color: var(--muted); margin-top: 6px; }
+
+.card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+.card-header {
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, var(--cream), var(--white));
+}
+.card-header h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.card-body { padding: 24px; }
+
+/* ─── TABLES ──────────────────────────────────────────────────────────────── */
+.data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.data-table th {
+  background: linear-gradient(135deg, var(--rose-dark), var(--rose));
+  color: white;
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.data-table th:first-child { border-radius: 0; }
+.data-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:hover td { background: var(--cream); }
+.data-table td input, .data-table td select {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: 'Jost', sans-serif;
+  font-size: 13px;
+  color: var(--ink);
+  width: 100%;
+}
+.data-table td input:focus, .data-table td select:focus {
+  background: var(--gold-light);
+  border-radius: 4px;
+  padding: 2px 4px;
+}
+.data-table .total-row td {
+  background: var(--gold-light);
+  font-weight: 600;
+  border-top: 2px solid var(--gold);
+}
+
+/* ─── STATUS BADGES ──────────────────────────────────────────────────────── */
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+.badge-green { background: var(--green-bg); color: var(--green); }
+.badge-red { background: var(--red-bg); color: var(--red); }
+.badge-amber { background: var(--amber-bg); color: var(--amber); }
+.badge-rose { background: var(--rose-light); color: var(--rose-dark); }
+.badge-gold { background: var(--gold-light); color: var(--gold-dark); }
+.badge-muted { background: #f0ebe5; color: var(--muted); }
+
+/* ─── BUDGET PROGRESS ────────────────────────────────────────────────────── */
+.progress-bar {
+  height: 8px;
+  background: var(--border);
+  border-radius: 100px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 100px;
+  background: linear-gradient(90deg, var(--rose), var(--gold));
+  transition: width 0.5s ease;
+}
+.progress-fill.danger { background: linear-gradient(90deg, var(--red), #ff6b6b); }
+
+/* ─── FORMS ───────────────────────────────────────────────────────────────── */
+.form-group { margin-bottom: 16px; }
+.form-label {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.form-control {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: 'Jost', sans-serif;
+  font-size: 13px;
+  color: var(--ink);
+  background: var(--white);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.form-control:focus { border-color: var(--rose); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+/* ─── MODAL ───────────────────────────────────────────────────────────────── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(42,31,31,0.55);
+  backdrop-filter: blur(4px);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--white);
+  border-radius: 16px;
+  width: 560px;
+  max-width: 95vw;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+  animation: slideUp 0.25s ease;
+}
+@keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.modal-header {
+  padding: 24px 28px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.modal-header h3 { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; }
+.modal-close { cursor: pointer; color: var(--muted); font-size: 20px; line-height: 1; padding: 4px; }
+.modal-close:hover { color: var(--rose); }
+.modal-body { padding: 24px 28px; }
+.modal-footer { padding: 16px 28px 24px; display: flex; gap: 10px; justify-content: flex-end; border-top: 1px solid var(--border); }
+
+/* ─── SEQUENCE VIEWER ────────────────────────────────────────────────────── */
+.sequence-timeline { position: relative; }
+.sequence-item {
+  display: grid;
+  grid-template-columns: 60px 80px 180px 80px 1fr;
+  gap: 0;
+  align-items: stretch;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+.sequence-item:hover { background: var(--cream); }
+.sequence-item.header { background: linear-gradient(135deg, var(--rose-dark), var(--rose)); }
+.seq-cell {
+  padding: 12px 14px;
+  font-size: 13px;
+  border-right: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+}
+.sequence-item.header .seq-cell {
+  color: white;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-right-color: rgba(255,255,255,0.15);
+}
+.seq-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--rose);
+  justify-content: center;
+}
+.type-pill { font-size: 10px; font-weight: 500; padding: 3px 8px; border-radius: 100px; letter-spacing: 0.04em; }
+.type-Entry { background: #e3f2fd; color: #1565c0; }
+.type-Performance { background: #f3e5f5; color: #6a1b9a; }
+.type-Speech { background: #e8f5e9; color: #2e7d32; }
+.type-DJ\ Set { background: #fff3e0; color: #e65100; }
+.type-Group\ Dance { background: #fce4ec; color: #ad1457; }
+.type-Ritual { background: #fff9c4; color: #f9a825; }
+.type-Game { background: #e0f7fa; color: #00838f; }
+.type-Video\ Montage { background: #f1f8e9; color: #558b2f; }
+.type-Other { background: #f0ebe5; color: #7a6a6a; }
+
+/* ─── CHECKLIST ──────────────────────────────────────────────────────────── */
+.checklist-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  transition: all 0.2s;
+}
+.checklist-item:last-child { border-bottom: none; }
+.check-circle {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s;
+  font-size: 12px;
+}
+.check-circle.done { background: var(--green); border-color: var(--green); color: white; }
+.check-circle.skipped { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+.checklist-item.done .task-text { text-decoration: line-through; color: var(--muted); }
+.task-text { font-size: 13px; flex: 1; }
+.task-phase { font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; }
+
+/* ─── DASHBOARD GRID ─────────────────────────────────────────────────────── */
+.dash-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; }
+
+/* ─── EVENTS CARDS ───────────────────────────────────────────────────────── */
+.events-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+.event-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.event-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+.event-card-header {
+  background: linear-gradient(135deg, var(--rose-dark), var(--rose));
+  padding: 16px 18px 12px;
+}
+.event-card-header h4 { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: white; font-weight: 600; }
+.event-card-header .date { font-size: 11px; color: rgba(255,255,255,0.7); margin-top: 2px; }
+.event-card-body { padding: 14px 18px; }
+.event-meta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+.event-meta-item { font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 4px; }
+
+/* ─── INPUT CELL ─────────────────────────────────────────────────────────── */
+.editable {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: 'Jost', sans-serif;
+  font-size: 13px;
+  color: var(--ink);
+  width: 100%;
+}
+.editable:focus {
+  background: var(--gold-light);
+  border-radius: 4px;
+  padding: 2px 4px;
+}
+
+/* ─── BUDGET BARS ────────────────────────────────────────────────────────── */
+.budget-cat-row {
+  display: grid;
+  grid-template-columns: 160px 1fr 90px;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+.budget-cat-row:last-child { border-bottom: none; }
+.cat-name { font-size: 13px; font-weight: 500; }
+.cat-bar-wrap { position: relative; }
+.cat-bar-bg { height: 10px; background: var(--border); border-radius: 100px; overflow: hidden; }
+.cat-bar-fill { height: 100%; border-radius: 100px; background: linear-gradient(90deg, var(--rose), var(--gold)); }
+.cat-bar-fill.over { background: linear-gradient(90deg, var(--red), #ff8a80); }
+.cat-amounts { font-size: 11px; color: var(--muted); margin-top: 3px; }
+.cat-variance { font-size: 12px; font-weight: 600; text-align: right; }
+.cat-variance.pos { color: var(--green); }
+.cat-variance.neg { color: var(--red); }
+
+/* ─── NOTIFICATIONS ──────────────────────────────────────────────────────── */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--ink);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 13px;
+  box-shadow: var(--shadow-lg);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s;
+  z-index: 999;
+  max-width: 300px;
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+
+/* ─── SCROLL ──────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+/* ─── ANIMATIONS ─────────────────────────────────────────────────────────── */
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.tab-panel.active { animation: fadeIn 0.3s ease; }
+
+/* ─── GUEST ───────────────────────────────────────────────────────────────── */
+.guest-filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+.filter-chip {
+  padding: 5px 14px;
+  border-radius: 100px;
+  border: 1px solid var(--border);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: var(--white);
+  color: var(--muted);
+}
+.filter-chip.active { background: var(--rose); border-color: var(--rose); color: white; }
+
+/* ─── VENDOR STATUS ─────────────────────────────────────────────────────── */
+select.status-select {
+  border: none;
+  outline: none;
+  font-family: 'Jost', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 100px;
+  cursor: pointer;
+}
+.status-Shortlisted { background: #e3f2fd; color: #1565c0; }
+.status-Negotiating { background: #fff9c4; color: #f9a825; }
+.status-Booked { background: #e8f5e9; color: #2e7d32; }
+.status-Advance\ Paid { background: #f3e5f5; color: #6a1b9a; }
+.status-Fully\ Paid { background: #e8f5e9; color: #1b5e20; }
+.status-Cancelled { background: #ffebee; color: #c62828; }
+
+/* ─── PHOTO SHOT LIST ────────────────────────────────────────────────────── */
+.shot-priority-1 { color: #ffd700; }
+.shot-priority-2 { color: #c0c0c0; }
+.shot-priority-3 { color: #cd7f32; }
+
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .kpi-grid { grid-template-columns: 1fr 1fr; }
+  .dash-grid { grid-template-columns: 1fr; }
+  .sequence-item { grid-template-columns: 40px 60px 1fr 60px; }
+  .form-row, .form-row-3 { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <h1>💍 Wedding Planner</h1>
+      <p>Your command center</p>
+    </div>
+    <div class="sidebar-couple">
+      <input id="coupleNames" placeholder="Bride & Groom Names" value="Anika & Rohan">
+    </div>
+    <div class="sidebar-date">
+      <input type="date" id="weddingDate" value="2025-12-15">
+    </div>
+    <div class="countdown-pill">
+      <div class="days" id="countdown">—</div>
+      <div class="days-label">days to go 🎉</div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">Overview</div>
+      <div class="nav-item active" onclick="showTab('dashboard')"><span class="icon">🏠</span> Dashboard</div>
+      <div class="nav-section">Planning</div>
+      <div class="nav-item" onclick="showTab('budget')"><span class="icon">💰</span> Budget</div>
+      <div class="nav-item" onclick="showTab('vendors')"><span class="icon">🏢</span> Vendors</div>
+      <div class="nav-item" onclick="showTab('checklist')"><span class="icon">✅</span> Checklist</div>
+      <div class="nav-item" onclick="showTab('events')"><span class="icon">📅</span> Events</div>
+      <div class="nav-section">Show</div>
+      <div class="nav-item" onclick="showTab('sequences')"><span class="icon">🎭</span> Sequences</div>
+      <div class="nav-item" onclick="showTab('viewer')"><span class="icon">▶️</span> Run of Show</div>
+      <div class="nav-section">Details</div>
+      <div class="nav-item" onclick="showTab('guests')"><span class="icon">👥</span> Guest List</div>
+      <div class="nav-item" onclick="showTab('catering')"><span class="icon">🍽️</span> Catering</div>
+      <div class="nav-item" onclick="showTab('gifts')"><span class="icon">🎁</span> Gifts</div>
+      <div class="nav-item" onclick="showTab('shots')"><span class="icon">📸</span> Shot List</div>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="topbar">
+      <h2 id="topbarTitle">Dashboard</h2>
+      <div class="topbar-actions">
+        <button class="btn btn-outline" onclick="exportData()">⬇ Export</button>
+        <button class="btn btn-gold" onclick="showAddModal()">+ Add</button>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- ── DASHBOARD ────────────────────────────────────────────────────── -->
+      <div id="tab-dashboard" class="tab-panel active">
+        <div class="kpi-grid">
+          <div class="kpi-card rose">
+            <div class="kpi-label">Total Budget</div>
+            <div class="kpi-value" id="kpi-budget">₹0</div>
+            <div class="kpi-sub">Across all categories</div>
+          </div>
+          <div class="kpi-card gold">
+            <div class="kpi-label">Total Spent</div>
+            <div class="kpi-value" id="kpi-spent">₹0</div>
+            <div class="kpi-sub" id="kpi-spent-pct">0% of budget</div>
+            <div class="progress-bar" style="margin-top:10px"><div class="progress-fill" id="spend-bar" style="width:0%"></div></div>
+          </div>
+          <div class="kpi-card green">
+            <div class="kpi-label">Vendors Booked</div>
+            <div class="kpi-value" id="kpi-vendors">0</div>
+            <div class="kpi-sub" id="kpi-vendors-sub">of 0 total vendors</div>
+          </div>
+          <div class="kpi-card amber">
+            <div class="kpi-label">Tasks Done</div>
+            <div class="kpi-value" id="kpi-tasks">0%</div>
+            <div class="kpi-sub" id="kpi-tasks-sub">0 of 0 tasks</div>
+            <div class="progress-bar" style="margin-top:10px"><div class="progress-fill" id="task-bar" style="width:0%"></div></div>
+          </div>
+        </div>
+
+        <div class="dash-grid">
+          <div>
+            <div class="card">
+              <div class="card-header"><h3>💰 Budget by Category</h3></div>
+              <div class="card-body" id="dash-budget-bars"></div>
+            </div>
+            <div class="card">
+              <div class="card-header"><h3>📅 Upcoming Events</h3></div>
+              <div class="card-body" id="dash-events-list"></div>
+            </div>
+          </div>
+          <div>
+            <div class="card">
+              <div class="card-header"><h3>✅ Checklist Progress</h3></div>
+              <div class="card-body" id="dash-checklist-summary"></div>
+            </div>
+            <div class="card">
+              <div class="card-header"><h3>🏢 Vendor Status</h3></div>
+              <div class="card-body" id="dash-vendor-summary"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── BUDGET ─────────────────────────────────────────────────────── -->
+      <div id="tab-budget" class="tab-panel">
+        <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr)">
+          <div class="kpi-card rose">
+            <div class="kpi-label">Total Budgeted</div>
+            <div class="kpi-value" id="b-total-budget">₹0</div>
+          </div>
+          <div class="kpi-card gold">
+            <div class="kpi-label">Total Spent</div>
+            <div class="kpi-value" id="b-total-spent">₹0</div>
+          </div>
+          <div class="kpi-card green">
+            <div class="kpi-label">Remaining</div>
+            <div class="kpi-value" id="b-remaining">₹0</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Category Budget</h3>
+            <div style="display:flex;gap:8px;align-items:center">
+              <label style="font-size:12px;color:var(--muted)">Guests:</label>
+              <input type="number" id="guestCount" value="200" min="1"
+                style="width:70px;padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:13px;"
+                onchange="recalcBudget()">
+              <button class="btn btn-gold btn-sm" onclick="addBudgetRow()">+ Add Row</button>
+            </div>
+          </div>
+          <div class="card-body" style="padding:0">
+            <table class="data-table" id="budget-table">
+              <thead><tr>
+                <th>Category</th><th>Vendor / Notes</th><th>Per Person (₹)</th>
+                <th>Budgeted (₹)</th><th>Actual Spent (₹)</th><th>Variance (₹)</th><th></th>
+              </tr></thead>
+              <tbody id="budget-tbody"></tbody>
+              <tfoot>
+                <tr class="total-row">
+                  <td colspan="3"><strong>TOTAL</strong></td>
+                  <td id="foot-budgeted">₹0</td>
+                  <td id="foot-spent">₹0</td>
+                  <td id="foot-variance">₹0</td>
+                  <td></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3>💳 Payment Tracker</h3><button class="btn btn-gold btn-sm" onclick="addPaymentRow()">+ Add</button></div>
+          <div class="card-body" style="padding:0">
+            <table class="data-table" id="payment-table">
+              <thead><tr><th>Vendor</th><th>Category</th><th>Total (₹)</th><th>Paid (₹)</th><th>Balance (₹)</th><th>Due Date</th><th></th></tr></thead>
+              <tbody id="payment-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── VENDORS ─────────────────────────────────────────────────────── -->
+      <div id="tab-vendors" class="tab-panel">
+        <div class="card">
+          <div class="card-header"><h3>Vendor Directory</h3><button class="btn btn-gold btn-sm" onclick="addVendorRow()">+ Add Vendor</button></div>
+          <div class="card-body" style="padding:0">
+            <table class="data-table">
+              <thead><tr><th>Name</th><th>Category</th><th>Contact</th><th>Phone</th><th>Status</th><th>Quoted (₹)</th><th>Agreed (₹)</th><th>Notes</th><th></th></tr></thead>
+              <tbody id="vendor-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── CHECKLIST ───────────────────────────────────────────────────── -->
+      <div id="tab-checklist" class="tab-panel">
+        <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:20px">
+          <div class="kpi-card rose"><div class="kpi-label">Total Tasks</div><div class="kpi-value" id="cl-total">0</div></div>
+          <div class="kpi-card green"><div class="kpi-label">Done ✅</div><div class="kpi-value" id="cl-done">0</div></div>
+          <div class="kpi-card amber"><div class="kpi-label">In Progress ⏳</div><div class="kpi-value" id="cl-pending">0</div></div>
+          <div class="kpi-card" style="border-top:3px solid var(--red)"><div class="kpi-label">Blocked ❌</div><div class="kpi-value" id="cl-blocked">0</div></div>
+        </div>
+        <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
+          <div class="filter-chip active" onclick="filterChecklist('all',this)">All</div>
+          <div class="filter-chip" onclick="filterChecklist('Pre-Wedding',this)">Pre-Wedding</div>
+          <div class="filter-chip" onclick="filterChecklist('Wedding Day',this)">Wedding Day</div>
+          <div class="filter-chip" onclick="filterChecklist('Post-Wedding',this)">Post-Wedding</div>
+          <div class="filter-chip" onclick="filterChecklist('done',this)">✅ Done</div>
+          <div class="filter-chip" onclick="filterChecklist('pending',this)">⏳ Pending</div>
+          <button class="btn btn-gold btn-sm" style="margin-left:auto" onclick="addCheckItem()">+ Add Task</button>
+        </div>
+        <div class="card"><div class="card-body" id="checklist-body" style="padding:16px 24px"></div></div>
+      </div>
+
+      <!-- ── EVENTS ──────────────────────────────────────────────────────── -->
+      <div id="tab-events" class="tab-panel">
+        <div style="display:flex;justify-content:flex-end;margin-bottom:16px">
+          <button class="btn btn-gold" onclick="addEventModal()">+ Add Event</button>
+        </div>
+        <div class="events-grid" id="events-grid"></div>
+      </div>
+
+      <!-- ── SEQUENCES ───────────────────────────────────────────────────── -->
+      <div id="tab-sequences" class="tab-panel">
+        <div style="display:flex;gap:12px;margin-bottom:16px;align-items:center;flex-wrap:wrap">
+          <select id="seq-event-filter" class="form-control" style="width:200px" onchange="renderSequences()">
+            <option value="all">All Events</option>
+          </select>
+          <button class="btn btn-gold btn-sm" onclick="addSeqModal()">+ Add Act</button>
+          <span style="font-size:12px;color:var(--muted);margin-left:auto">Switch to <a href="#" onclick="showTab('viewer');return false" style="color:var(--rose);text-decoration:none;font-weight:500">Run of Show →</a></span>
+        </div>
+        <div class="card">
+          <div class="card-body" style="padding:0">
+            <div class="sequence-item header">
+              <div class="seq-cell seq-num">#</div>
+              <div class="seq-cell">Time</div>
+              <div class="seq-cell">Performer</div>
+              <div class="seq-cell">Duration</div>
+              <div class="seq-cell">Type / Description</div>
+            </div>
+            <div id="sequences-body"></div>
+          </div>
+        </div>
+        <div id="seq-duration-summary" style="margin-top:16px"></div>
+      </div>
+
+      <!-- ── SEQUENCE VIEWER (RUN OF SHOW) ─────────────────────────────── -->
+      <div id="tab-viewer" class="tab-panel">
+        <div style="display:flex;gap:16px;align-items:center;margin-bottom:24px;flex-wrap:wrap">
+          <div>
+            <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:6px">Select Event</div>
+            <select id="viewer-event-select" class="form-control" style="width:240px;font-size:15px" onchange="renderViewer()">
+            </select>
+          </div>
+          <div id="viewer-stats" style="margin-left:auto;text-align:right"></div>
+        </div>
+        <div id="viewer-title" style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;color:var(--rose-dark);margin-bottom:24px"></div>
+        <div class="card">
+          <div class="card-body" style="padding:0">
+            <div class="sequence-item header">
+              <div class="seq-cell seq-num">#</div>
+              <div class="seq-cell">Time</div>
+              <div class="seq-cell">Performer / Person</div>
+              <div class="seq-cell">Duration</div>
+              <div class="seq-cell">Type & Description</div>
+            </div>
+            <div id="viewer-body"></div>
+          </div>
+        </div>
+        <div id="viewer-empty" style="display:none;text-align:center;padding:60px;color:var(--muted)">
+          <div style="font-size:48px;margin-bottom:12px">🎭</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:22px">No sequences yet for this event</div>
+          <div style="font-size:13px;margin-top:6px">Go to <b>Sequences</b> tab and add acts for this event</div>
+        </div>
+      </div>
+
+      <!-- ── GUESTS ──────────────────────────────────────────────────────── -->
+      <div id="tab-guests" class="tab-panel">
+        <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr)">
+          <div class="kpi-card rose"><div class="kpi-label">Total Invited</div><div class="kpi-value" id="g-total">0</div></div>
+          <div class="kpi-card green"><div class="kpi-label">Attending ✅</div><div class="kpi-value" id="g-yes">0</div></div>
+          <div class="kpi-card" style="border-top:3px solid var(--red)"><div class="kpi-label">Not Attending ❌</div><div class="kpi-value" id="g-no">0</div></div>
+          <div class="kpi-card amber"><div class="kpi-label">Pending ⏳</div><div class="kpi-value" id="g-pending">0</div></div>
+        </div>
+        <div class="guest-filters">
+          <div class="filter-chip active" onclick="filterGuests('all',this)">All</div>
+          <div class="filter-chip" onclick="filterGuests("Bride's Side",this)">Bride's Side</div>
+          <div class="filter-chip" onclick="filterGuests("Groom's Side",this)">Groom's Side</div>
+          <div class="filter-chip" onclick="filterGuests('✅ Attending',this)">Attending</div>
+          <div class="filter-chip" onclick="filterGuests('⏳ Pending',this)">Pending</div>
+          <div class="filter-chip" onclick="filterGuests('VIP 👑',this)">VIP</div>
+          <button class="btn btn-gold btn-sm" style="margin-left:auto" onclick="addGuestModal()">+ Add Guest</button>
+        </div>
+        <div class="card">
+          <div class="card-body" style="padding:0">
+            <table class="data-table">
+              <thead><tr><th>Name</th><th>Side</th><th>Relation</th><th>RSVP</th><th>Category</th><th>Kids?</th><th>Events</th><th>Notes</th><th></th></tr></thead>
+              <tbody id="guest-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── CATERING ────────────────────────────────────────────────────── -->
+      <div id="tab-catering" class="tab-panel">
+        <div class="card">
+          <div class="card-header"><h3>🍽️ Per-Event Catering Calculator</h3><button class="btn btn-gold btn-sm" onclick="addCateringRow()">+ Add Event</button></div>
+          <div class="card-body" style="padding:0">
+            <table class="data-table">
+              <thead><tr><th>Event</th><th># Guests</th><th>Menu Type</th><th>Per Plate (₹)</th><th>Total (₹)</th><th>Caterer</th><th></th></tr></thead>
+              <tbody id="catering-tbody"></tbody>
+              <tfoot><tr class="total-row"><td colspan="4"><strong>Total Catering Cost</strong></td><td id="cat-total">₹0</td><td colspan="2"></td></tr></tfoot>
+            </table>
+          </div>
+        </div>
+        <div class="card" style="margin-top:24px">
+          <div class="card-header"><h3>📋 Menu Planner</h3></div>
+          <div class="card-body">
+            <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap" id="menu-event-tabs"></div>
+            <div id="menu-planner"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── GIFTS ──────────────────────────────────────────────────────── -->
+      <div id="tab-gifts" class="tab-panel">
+        <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr)">
+          <div class="kpi-card rose"><div class="kpi-label">Total Gifts</div><div class="kpi-value" id="gift-total">0</div></div>
+          <div class="kpi-card gold"><div class="kpi-label">Total Cash (₹)</div><div class="kpi-value" id="gift-cash">₹0</div></div>
+          <div class="kpi-card green"><div class="kpi-label">Gift Items</div><div class="kpi-value" id="gift-items">0</div></div>
+          <div class="kpi-card amber"><div class="kpi-label">Thank You Pending</div><div class="kpi-value" id="gift-ty">0</div></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h3>🎁 Gift Tracker</h3><button class="btn btn-gold btn-sm" onclick="addGiftRow()">+ Add Gift</button></div>
+          <div class="card-body" style="padding:0">
+            <table class="data-table">
+              <thead><tr><th>Guest Name</th><th>Relation / Side</th><th>Gift Type</th><th>Amount / Item</th><th>Event</th><th>Thank You</th><th>Notes</th><th></th></tr></thead>
+              <tbody id="gift-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SHOTS ──────────────────────────────────────────────────────── -->
+      <div id="tab-shots" class="tab-panel">
+        <div class="card">
+          <div class="card-header">
+            <h3>📸 Photography Shot List</h3>
+            <div style="display:flex;gap:8px">
+              <span class="badge badge-gold" id="shots-captured">0 Captured</span>
+              <span class="badge badge-muted" id="shots-pending">0 Pending</span>
+              <button class="btn btn-gold btn-sm" onclick="addShotRow()">+ Add Shot</button>
+            </div>
+          </div>
+          <div class="card-body" style="padding:0">
+            <table class="data-table">
+              <thead><tr><th>Event</th><th>Shot Description</th><th>People</th><th>Priority</th><th>Status</th><th></th></tr></thead>
+              <tbody id="shots-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </main>
+</div>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modal-title">Add Item</h3>
+      <div class="modal-close" onclick="closeModal()">✕</div>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-gold" id="modal-save-btn" onclick="saveModal()">Save</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── DATA STORE ────────────────────────────────────────────────────────────
+const DATA = {
+  budget: [
+    {id:1, category:"Venue", notes:"Banquet Hall / Farm House", perPerson:2000, budgeted:0, spent:0},
+    {id:2, category:"Catering", notes:"Per plate food & beverage", perPerson:1200, budgeted:0, spent:0},
+    {id:3, category:"Photography", notes:"Photo + Video package", perPerson:null, budgeted:150000, spent:0},
+    {id:4, category:"Decoration", notes:"Flowers, drapes, lighting", perPerson:null, budgeted:200000, spent:0},
+    {id:5, category:"Bridal Attire", notes:"Lehenga, jewellery, makeup", perPerson:null, budgeted:300000, spent:0},
+    {id:6, category:"Groom Attire", notes:"Sherwani, accessories", perPerson:null, budgeted:80000, spent:0},
+    {id:7, category:"Music & DJ", notes:"DJ + Band", perPerson:null, budgeted:100000, spent:0},
+    {id:8, category:"Mehendi", notes:"Mehendi artist", perPerson:null, budgeted:30000, spent:0},
+    {id:9, category:"Invitations", notes:"Cards + digital + hampers", perPerson:null, budgeted:50000, spent:0},
+    {id:10, category:"Honeymoon", notes:"Travel & stay", perPerson:null, budgeted:200000, spent:0},
+  ],
+  payments: [],
+  vendors: [
+    {id:1, name:"Royal Banquet", category:"Venue", contact:"Mr. Sharma", phone:"9876543210", status:"Shortlisted", quoted:500000, agreed:0, notes:""},
+    {id:2, name:"Pixel Perfect Studios", category:"Photography", contact:"Ravi Kumar", phone:"9123456789", status:"Negotiating", quoted:180000, agreed:0, notes:""},
+  ],
+  checklist: [
+    {id:1,phase:"Pre-Wedding",task:"Fix wedding date & venue",status:"done"},
+    {id:2,phase:"Pre-Wedding",task:"Decide guest list",status:"done"},
+    {id:3,phase:"Pre-Wedding",task:"Set overall budget",status:"pending"},
+    {id:4,phase:"Pre-Wedding",task:"Book photographer & videographer",status:"pending"},
+    {id:5,phase:"Pre-Wedding",task:"Book caterer",status:"pending"},
+    {id:6,phase:"Pre-Wedding",task:"Book makeup artist (Bridal)",status:"pending"},
+    {id:7,phase:"Pre-Wedding",task:"Book Mehendi artist",status:"pending"},
+    {id:8,phase:"Pre-Wedding",task:"Book DJ / Music band",status:"pending"},
+    {id:9,phase:"Pre-Wedding",task:"Send invitations",status:"pending"},
+    {id:10,phase:"Pre-Wedding",task:"Book hotel rooms for outstation guests",status:"pending"},
+    {id:11,phase:"Pre-Wedding",task:"Book honeymoon travel & hotel",status:"pending"},
+    {id:12,phase:"Pre-Wedding",task:"Buy bridal lehenga & jewellery",status:"pending"},
+    {id:13,phase:"Pre-Wedding",task:"Buy groom sherwani",status:"pending"},
+    {id:14,phase:"Pre-Wedding",task:"Plan sangeet program & rehearsal",status:"pending"},
+    {id:15,phase:"Pre-Wedding",task:"Arrange transportation for guests",status:"pending"},
+    {id:16,phase:"Pre-Wedding",task:"Book pandit ji & fix muhurat",status:"pending"},
+    {id:17,phase:"Pre-Wedding",task:"Prepare wedding day itinerary",status:"pending"},
+    {id:18,phase:"Pre-Wedding",task:"Confirm all vendors 1 week before",status:"pending"},
+    {id:19,phase:"Wedding Day",task:"Bridal makeup & getting ready",status:"pending"},
+    {id:20,phase:"Wedding Day",task:"Welcome guests at venue",status:"pending"},
+    {id:21,phase:"Wedding Day",task:"Verify catering setup",status:"pending"},
+    {id:22,phase:"Wedding Day",task:"Perform wedding rituals / pheras",status:"pending"},
+    {id:23,phase:"Wedding Day",task:"Vidai ceremony",status:"pending"},
+    {id:24,phase:"Wedding Day",task:"Reception dinner",status:"pending"},
+    {id:25,phase:"Post-Wedding",task:"Collect all photos & videos",status:"pending"},
+    {id:26,phase:"Post-Wedding",task:"Send thank-you messages to guests",status:"pending"},
+    {id:27,phase:"Post-Wedding",task:"Final payment to all vendors",status:"pending"},
+    {id:28,phase:"Post-Wedding",task:"Write reviews for vendors",status:"pending"},
+  ],
+  events: [
+    {id:1, name:"Roka / Engagement", date:"", start:"11:00", end:"14:00", venue:"Home / Restaurant", dress:"Ethnic", guests:50, notes:"Ring ceremony + sweets"},
+    {id:2, name:"Haldi", date:"", start:"09:00", end:"12:00", venue:"Home", dress:"Yellow outfits", guests:30, notes:"Fun morning event"},
+    {id:3, name:"Mehendi", date:"", start:"15:00", end:"21:00", venue:"Home / Garden", dress:"Colorful", guests:80, notes:"DJ, lunch, dancing"},
+    {id:4, name:"Sangeet", date:"", start:"19:00", end:"00:00", venue:"Banquet Hall", dress:"Party wear", guests:150, notes:"Performances + DJ"},
+    {id:5, name:"Baraat / Wedding", date:"", start:"09:00", end:"15:00", venue:"Wedding Venue", dress:"Formal ethnic", guests:300, notes:"Main ceremony"},
+    {id:6, name:"Reception", date:"", start:"19:00", end:"23:00", venue:"Banquet Hall", dress:"Formal", guests:400, notes:"Dinner & dancing"},
+  ],
+  sequences: [
+    {id:1,event:"Sangeet",act:1,performer:"Bride's Family Entry",duration:10,type:"Entry",notes:"Grand entry with dhol"},
+    {id:2,event:"Sangeet",act:2,performer:"Groom's Family Entry",duration:10,type:"Entry",notes:"Groom's family entry with flowers"},
+    {id:3,event:"Sangeet",act:3,performer:"Welcome Speech – Bride's Dad",duration:5,type:"Speech",notes:"Father of the bride"},
+    {id:4,event:"Sangeet",act:4,performer:"Bride's Friends – Group Dance",duration:8,type:"Group Dance",notes:"Bollywood medley, choreographed"},
+    {id:5,event:"Sangeet",act:5,performer:"Groom's Brothers",duration:8,type:"Performance",notes:"Surprise performance for groom"},
+    {id:6,event:"Sangeet",act:6,performer:"Bride's Parents – Couple Dance",duration:6,type:"Performance",notes:"Emotional performance"},
+    {id:7,event:"Sangeet",act:7,performer:"Groom's Friends – Roast + Dance",duration:10,type:"Group Dance",notes:"Mix of roast + funny dance"},
+    {id:8,event:"Sangeet",act:8,performer:"Bride's Solo Performance",duration:6,type:"Performance",notes:"Bride performs for groom (surprise)"},
+    {id:9,event:"Sangeet",act:9,performer:"Groom's Response",duration:6,type:"Performance",notes:"Groom's surprise song"},
+    {id:10,event:"Sangeet",act:10,performer:"Couple's First Dance Together",duration:5,type:"Performance",notes:"Choreographed together"},
+    {id:11,event:"Sangeet",act:11,performer:"Games – Couple on Stage",duration:10,type:"Game",notes:"Fun games for bride & groom"},
+    {id:12,event:"Sangeet",act:12,performer:"Friend Speeches",duration:10,type:"Speech",notes:"2–3 best friend speeches"},
+    {id:13,event:"Sangeet",act:13,performer:"Video Montage",duration:5,type:"Video Montage",notes:"Childhood photos & videos slideshow"},
+    {id:14,event:"Sangeet",act:14,performer:"DJ Opens Floor",duration:60,type:"DJ Set",notes:"Dance floor for all guests"},
+    {id:15,event:"Sangeet",act:15,performer:"Dinner Service",duration:45,type:"Other",notes:"Buffet opens while DJ continues"},
+    {id:16,event:"Reception",act:1,performer:"Venue Doors Open",duration:30,type:"Other",notes:"Guests arrive, welcome drinks"},
+    {id:17,event:"Reception",act:2,performer:"Welcome Speech – MC",duration:5,type:"Speech",notes:"MC welcomes everyone"},
+    {id:18,event:"Reception",act:3,performer:"Couple's Grand Entry",duration:10,type:"Entry",notes:"Couple enters to their song"},
+    {id:19,event:"Reception",act:4,performer:"Photo Time on Stage",duration:30,type:"Ritual",notes:"Guests come for photos"},
+    {id:20,event:"Reception",act:5,performer:"Family Speeches",duration:15,type:"Speech",notes:"Parents & close family"},
+    {id:21,event:"Reception",act:6,performer:"First Dance",duration:5,type:"Performance",notes:"Couple's first dance"},
+    {id:22,event:"Reception",act:7,performer:"Dinner Begins",duration:60,type:"Other",notes:"Buffet service"},
+    {id:23,event:"Reception",act:8,performer:"Dance Floor Opens",duration:90,type:"DJ Set",notes:"Open dance floor"},
+    {id:24,event:"Reception",act:9,performer:"Couple Farewell",duration:10,type:"Other",notes:"Couple departs"},
+  ],
+  guests: [
+    {id:1,name:"Ramesh Sharma",side:"Bride's Side",relation:"Uncle",rsvp:"✅ Attending",category:"Family",kids:"No",events:"Sangeet, Wedding, Reception",notes:""},
+    {id:2,name:"Sunita Mehta",side:"Groom's Side",relation:"Aunt",rsvp:"⏳ Pending",category:"Family",kids:"Yes",events:"All",notes:"Travelling from Mumbai"},
+  ],
+  catering: [
+    {id:1,event:"Sangeet",guests:150,menu:"Starters + Dinner",perPlate:900,caterer:""},
+    {id:2,event:"Wedding Ceremony",guests:300,menu:"Full Meals",perPlate:1100,caterer:""},
+    {id:3,event:"Reception",guests:400,menu:"Buffet Dinner",perPlate:1200,caterer:""},
+    {id:4,event:"Mehendi",guests:80,menu:"Lunch + Snacks",perPlate:700,caterer:""},
+  ],
+  gifts: [
+    {id:1,name:"Ramesh Sharma",relation:"Bride's Uncle",type:"Cash",amount:"5000",event:"Wedding",thankyou:"Pending",notes:""},
+  ],
+  shots: [
+    {id:1,event:"Mehendi",desc:"Close-up of Mehendi design",people:"Bride",priority:"⭐⭐⭐ Must Have",status:"Pending"},
+    {id:2,event:"Sangeet",desc:"Couple on stage",people:"Bride + Groom",priority:"⭐⭐⭐ Must Have",status:"Pending"},
+    {id:3,event:"Wedding",desc:"Varmala / Jaimala",people:"Bride + Groom",priority:"⭐⭐⭐ Must Have",status:"Pending"},
+    {id:4,event:"Wedding",desc:"Pheras close-up",people:"Bride + Groom",priority:"⭐⭐⭐ Must Have",status:"Pending"},
+    {id:5,event:"Wedding",desc:"Sindoor + Mangalsutra moment",people:"Bride + Groom",priority:"⭐⭐⭐ Must Have",status:"Pending"},
+    {id:6,event:"Wedding",desc:"Family portrait – Bride's side",people:"Family",priority:"⭐⭐⭐ Must Have",status:"Pending"},
+    {id:7,event:"Wedding",desc:"Couple outdoor portrait",people:"Bride + Groom",priority:"⭐⭐⭐ Must Have",status:"Pending"},
+    {id:8,event:"Vidai",desc:"Vidai emotional moments",people:"Bride + Family",priority:"⭐⭐⭐ Must Have",status:"Pending"},
+    {id:9,event:"Reception",desc:"Couple's grand entry",people:"Bride + Groom",priority:"⭐⭐⭐ Must Have",status:"Pending"},
+    {id:10,event:"Reception",desc:"Dance floor candids",people:"All Guests",priority:"⭐ Nice to Have",status:"Pending"},
+  ],
+};
+
+let guestCount = 200;
+let _modalSave = null;
+let currentCheckFilter = 'all';
+let currentGuestFilter = 'all';
+let nextId = 100;
+
+// ─── UTILS ─────────────────────────────────────────────────────────────────
+const fmt = n => '₹' + Math.abs(n).toLocaleString('en-IN');
+const fmtNum = n => Number(n)||0;
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2500);
+}
+function uid() { return ++nextId; }
+
+// ─── COUNTDOWN ─────────────────────────────────────────────────────────────
+function updateCountdown() {
+  const d = document.getElementById('weddingDate').value;
+  if (!d) { document.getElementById('countdown').textContent = '—'; return; }
+  const diff = Math.ceil((new Date(d) - new Date()) / 86400000);
+  document.getElementById('countdown').textContent = diff > 0 ? diff : '🎊';
+}
+document.getElementById('weddingDate').addEventListener('change', updateCountdown);
+updateCountdown();
+setInterval(updateCountdown, 60000);
+
+// ─── TAB NAVIGATION ────────────────────────────────────────────────────────
+const tabTitles = {
+  dashboard:'Dashboard', budget:'Budget Planner', vendors:'Vendor Directory',
+  checklist:'Wedding Checklist', events:'Events Calendar',
+  sequences:'Event Sequences', viewer:'🎭 Run of Show',
+  guests:'Guest List', catering:'Catering & Meals',
+  gifts:'Gift Tracker', shots:'Photography Shot List'
+};
+function showTab(name) {
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>{
+    if(n.getAttribute('onclick')===`showTab('${name}')`) n.classList.add('active');
+  });
+  document.getElementById('topbarTitle').textContent = tabTitles[name]||name;
+  renderAll();
+}
+
+// ─── BUDGET ────────────────────────────────────────────────────────────────
+function calcBudgeted(row) {
+  if (row.perPerson) return fmtNum(row.perPerson) * guestCount;
+  return fmtNum(row.budgeted);
+}
+function recalcBudget() {
+  guestCount = parseInt(document.getElementById('guestCount').value)||200;
+  renderBudget();
+}
+function renderBudget() {
+  const tbody = document.getElementById('budget-tbody');
+  tbody.innerHTML = '';
+  let totBudget=0, totSpent=0;
+  DATA.budget.forEach(row=>{
+    const budgeted = calcBudgeted(row);
+    const spent = fmtNum(row.spent);
+    const variance = budgeted - spent;
+    totBudget += budgeted; totSpent += spent;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><input class="editable" value="${row.category}" onchange="DATA.budget.find(r=>r.id==${row.id}).category=this.value"></td>
+      <td><input class="editable" value="${row.notes}" onchange="DATA.budget.find(r=>r.id==${row.id}).notes=this.value"></td>
+      <td style="text-align:center"><input class="editable" style="text-align:center;width:80px" value="${row.perPerson||''}" placeholder="—" onchange="DATA.budget.find(r=>r.id==${row.id}).perPerson=this.value?Number(this.value):null;renderBudget()"></td>
+      <td style="text-align:center;font-weight:500">${fmt(budgeted)}</td>
+      <td style="text-align:center"><input class="editable" style="text-align:center;width:90px" value="${spent||''}" placeholder="0" onchange="DATA.budget.find(r=>r.id==${row.id}).spent=Number(this.value)||0;renderBudget()"></td>
+      <td style="text-align:center;font-weight:600;color:${variance>=0?'var(--green)':'var(--red)'}">${variance>=0?'+':'-'}${fmt(Math.abs(variance))}</td>
+      <td><button class="btn btn-danger btn-sm" onclick="deleteBudgetRow(${row.id})">✕</button></td>
+    `;
+    tbody.appendChild(tr);
+  });
+  const totVariance = totBudget - totSpent;
+  document.getElementById('foot-budgeted').textContent = fmt(totBudget);
+  document.getElementById('foot-spent').textContent = fmt(totSpent);
+  document.getElementById('foot-variance').textContent = (totVariance>=0?'+':'')+fmt(totVariance);
+  document.getElementById('b-total-budget').textContent = fmt(totBudget);
+  document.getElementById('b-total-spent').textContent = fmt(totSpent);
+  document.getElementById('b-remaining').textContent = fmt(totVariance);
+}
+function addBudgetRow() {
+  DATA.budget.push({id:uid(),category:"New Category",notes:"",perPerson:null,budgeted:0,spent:0});
+  renderBudget();
+}
+function deleteBudgetRow(id) {
+  DATA.budget = DATA.budget.filter(r=>r.id!==id);
+  renderBudget(); toast('Row deleted');
+}
+
+function renderPayments() {
+  const tbody = document.getElementById('payment-tbody');
+  tbody.innerHTML = '';
+  DATA.payments.forEach(p=>{
+    const balance = fmtNum(p.total) - fmtNum(p.paid);
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><input class="editable" value="${p.vendor}" onchange="DATA.payments.find(r=>r.id==${p.id}).vendor=this.value"></td>
+      <td><input class="editable" value="${p.category}" onchange="DATA.payments.find(r=>r.id==${p.id}).category=this.value"></td>
+      <td><input class="editable" type="number" value="${p.total}" onchange="DATA.payments.find(r=>r.id==${p.id}).total=Number(this.value)||0;renderPayments()"></td>
+      <td><input class="editable" type="number" value="${p.paid}" onchange="DATA.payments.find(r=>r.id==${p.id}).paid=Number(this.value)||0;renderPayments()"></td>
+      <td style="font-weight:600;color:${balance>0?'var(--red)':'var(--green)'}">${fmt(balance)}</td>
+      <td><input class="editable" type="date" value="${p.due}" onchange="DATA.payments.find(r=>r.id==${p.id}).due=this.value"></td>
+      <td><button class="btn btn-danger btn-sm" onclick="DATA.payments=DATA.payments.filter(r=>r.id!=${p.id});renderPayments()">✕</button></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+function addPaymentRow() {
+  DATA.payments.push({id:uid(),vendor:"",category:"",total:0,paid:0,due:""});
+  renderPayments();
+}
+
+// ─── VENDORS ───────────────────────────────────────────────────────────────
+const vendorStatuses = ['Shortlisted','Negotiating','Booked','Advance Paid','Fully Paid','Cancelled'];
+const vendorCategories = ['Venue','Catering','Photography','Videography','Decoration','Mehendi Artist','Bridal Makeup','DJ / Music Band','Invitations','Transport','Pandit Ji','Tent House','Jewellery','Bridal Attire','Groom Attire','Honeymoon Travel','Cake','Miscellaneous'];
+
+function renderVendors() {
+  const tbody = document.getElementById('vendor-tbody');
+  tbody.innerHTML = '';
+  DATA.vendors.forEach(v=>{
+    const tr = document.createElement('tr');
+    const statusOpts = vendorStatuses.map(s=>`<option ${v.status===s?'selected':''}>${s}</option>`).join('');
+    const catOpts = vendorCategories.map(c=>`<option ${v.category===c?'selected':''}>${c}</option>`).join('');
+    tr.innerHTML = `
+      <td><input class="editable" value="${v.name}" onchange="DATA.vendors.find(r=>r.id==${v.id}).name=this.value"></td>
+      <td><select class="editable" onchange="DATA.vendors.find(r=>r.id==${v.id}).category=this.value">${catOpts}</select></td>
+      <td><input class="editable" value="${v.contact}" onchange="DATA.vendors.find(r=>r.id==${v.id}).contact=this.value"></td>
+      <td><input class="editable" value="${v.phone}" onchange="DATA.vendors.find(r=>r.id==${v.id}).phone=this.value"></td>
+      <td><select class="status-select status-${v.status.replace(' ','\ ')}" onchange="this.className='status-select status-'+this.value.replace(/ /g,'\\ ');DATA.vendors.find(r=>r.id==${v.id}).status=this.value;updateDashboard()">${statusOpts}</select></td>
+      <td style="text-align:right"><input class="editable" type="number" style="text-align:right;width:80px" value="${v.quoted||0}" onchange="DATA.vendors.find(r=>r.id==${v.id}).quoted=Number(this.value)||0"></td>
+      <td style="text-align:right"><input class="editable" type="number" style="text-align:right;width:80px" value="${v.agreed||0}" onchange="DATA.vendors.find(r=>r.id==${v.id}).agreed=Number(this.value)||0"></td>
+      <td><input class="editable" value="${v.notes}" onchange="DATA.vendors.find(r=>r.id==${v.id}).notes=this.value"></td>
+      <td><button class="btn btn-danger btn-sm" onclick="DATA.vendors=DATA.vendors.filter(r=>r.id!=${v.id});renderVendors()">✕</button></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+function addVendorRow() {
+  DATA.vendors.push({id:uid(),name:"",category:"Venue",contact:"",phone:"",status:"Shortlisted",quoted:0,agreed:0,notes:""});
+  renderVendors(); toast('Vendor row added');
+}
+
+// ─── CHECKLIST ─────────────────────────────────────────────────────────────
+function renderChecklist() {
+  const body = document.getElementById('checklist-body');
+  let items = DATA.checklist;
+  if (currentCheckFilter !== 'all') {
+    if (currentCheckFilter === 'done') items = items.filter(i=>i.status==='done');
+    else if (currentCheckFilter === 'pending') items = items.filter(i=>i.status==='pending');
+    else items = items.filter(i=>i.phase===currentCheckFilter);
+  }
+  const done = DATA.checklist.filter(i=>i.status==='done').length;
+  const pending = DATA.checklist.filter(i=>i.status==='pending').length;
+  const blocked = DATA.checklist.filter(i=>i.status==='blocked').length;
+  document.getElementById('cl-total').textContent = DATA.checklist.length;
+  document.getElementById('cl-done').textContent = done;
+  document.getElementById('cl-pending').textContent = pending;
+  document.getElementById('cl-blocked').textContent = blocked;
+
+  let phases = [...new Set(items.map(i=>i.phase))];
+  body.innerHTML = '';
+  phases.forEach(phase=>{
+    const phaseItems = items.filter(i=>i.phase===phase);
+    const header = document.createElement('div');
+    header.style.cssText = 'font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);padding:16px 0 8px;border-bottom:2px solid var(--border);margin-bottom:4px;font-weight:600';
+    header.textContent = phase;
+    body.appendChild(header);
+    phaseItems.forEach(item=>{
+      const div = document.createElement('div');
+      div.className = 'checklist-item' + (item.status==='done'?' done':'');
+      div.innerHTML = `
+        <div class="check-circle ${item.status==='done'?'done':item.status==='blocked'?'skipped':''}" onclick="toggleCheck(${item.id})">
+          ${item.status==='done'?'✓':item.status==='blocked'?'✕':''}
+        </div>
+        <span class="task-text">${item.task}</span>
+        <span class="badge badge-muted task-phase">${item.phase}</span>
+        <button style="background:none;border:none;cursor:pointer;color:var(--muted);font-size:14px;padding:0 4px" onclick="DATA.checklist=DATA.checklist.filter(r=>r.id!=${item.id});renderChecklist();updateDashboard()">✕</button>
+      `;
+      body.appendChild(div);
+    });
+  });
+  if (items.length===0) body.innerHTML = '<div style="text-align:center;padding:40px;color:var(--muted)">No tasks match this filter</div>';
+}
+function toggleCheck(id) {
+  const item = DATA.checklist.find(r=>r.id===id);
+  item.status = item.status==='done' ? 'pending' : 'done';
+  renderChecklist(); updateDashboard();
+}
+function filterChecklist(filter, el) {
+  document.querySelectorAll('#tab-checklist .filter-chip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  currentCheckFilter = filter;
+  renderChecklist();
+}
+function addCheckItem() {
+  _modalSave = ()=>{
+    const task = document.getElementById('m-task').value.trim();
+    const phase = document.getElementById('m-phase').value;
+    if (!task) { toast('Enter a task name'); return; }
+    DATA.checklist.push({id:uid(),phase,task,status:'pending'});
+    renderChecklist(); updateDashboard(); closeModal(); toast('Task added');
+  };
+  document.getElementById('modal-title').textContent = 'Add Task';
+  document.getElementById('modal-body').innerHTML = `
+    <div class="form-group">
+      <label class="form-label">Phase</label>
+      <select id="m-phase" class="form-control">
+        <option>Pre-Wedding</option><option>Wedding Day</option><option>Post-Wedding</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Task</label>
+      <input id="m-task" class="form-control" placeholder="e.g. Book pandit ji">
+    </div>
+  `;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+// ─── EVENTS ────────────────────────────────────────────────────────────────
+function renderEvents() {
+  const grid = document.getElementById('events-grid');
+  grid.innerHTML = '';
+  DATA.events.forEach(ev=>{
+    const card = document.createElement('div');
+    card.className = 'event-card';
+    card.innerHTML = `
+      <div class="event-card-header">
+        <h4>${ev.name}</h4>
+        <div class="date">${ev.date ? new Date(ev.date).toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'}) : 'Date not set'}</div>
+      </div>
+      <div class="event-card-body">
+        <div class="event-meta">
+          <div class="event-meta-item">📍 ${ev.venue}</div>
+          <div class="event-meta-item">⏰ ${ev.start} – ${ev.end}</div>
+          <div class="event-meta-item">👥 ${ev.guests} guests</div>
+          <div class="event-meta-item">👗 ${ev.dress}</div>
+        </div>
+        ${ev.notes?`<div style="margin-top:8px;font-size:12px;color:var(--muted);font-style:italic">${ev.notes}</div>`:''}
+        <div style="display:flex;gap:8px;margin-top:12px">
+          <button class="btn btn-outline btn-sm" onclick="editEventModal(${ev.id})">Edit</button>
+          <button class="btn btn-danger btn-sm" onclick="DATA.events=DATA.events.filter(r=>r.id!=${ev.id});renderEvents()">Delete</button>
+        </div>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+function addEventModal(editId) {
+  const ev = editId ? DATA.events.find(r=>r.id===editId) : {id:uid(),name:'',date:'',start:'',end:'',venue:'',dress:'',guests:50,notes:''};
+  _modalSave = ()=>{
+    ev.name = document.getElementById('m-ename').value;
+    ev.date = document.getElementById('m-edate').value;
+    ev.start = document.getElementById('m-estart').value;
+    ev.end = document.getElementById('m-eend').value;
+    ev.venue = document.getElementById('m-evenue').value;
+    ev.dress = document.getElementById('m-edress').value;
+    ev.guests = Number(document.getElementById('m-eguests').value)||0;
+    ev.notes = document.getElementById('m-enotes').value;
+    if (!editId) DATA.events.push(ev);
+    renderEvents(); updateSeqSelects(); closeModal(); toast(editId?'Event updated':'Event added');
+  };
+  document.getElementById('modal-title').textContent = editId ? 'Edit Event' : 'Add Event';
+  document.getElementById('modal-body').innerHTML = `
+    <div class="form-group"><label class="form-label">Event Name</label><input id="m-ename" class="form-control" value="${ev.name}" placeholder="e.g. Sangeet"></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Date</label><input id="m-edate" type="date" class="form-control" value="${ev.date}"></div>
+      <div class="form-group"><label class="form-label">Guests</label><input id="m-eguests" type="number" class="form-control" value="${ev.guests}"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Start Time</label><input id="m-estart" type="time" class="form-control" value="${ev.start}"></div>
+      <div class="form-group"><label class="form-label">End Time</label><input id="m-eend" type="time" class="form-control" value="${ev.end}"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Venue</label><input id="m-evenue" class="form-control" value="${ev.venue}"></div>
+      <div class="form-group"><label class="form-label">Dress Code</label><input id="m-edress" class="form-control" value="${ev.dress}"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Notes</label><input id="m-enotes" class="form-control" value="${ev.notes}"></div>
+  `;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+function editEventModal(id) { addEventModal(id); }
+
+// ─── SEQUENCES ─────────────────────────────────────────────────────────────
+const seqTypes = ['Entry','Performance','Speech','DJ Set','Group Dance','Ritual','Game','Video Montage','Other'];
+
+function updateSeqSelects() {
+  const evNames = ['Sangeet','Reception','Mehendi','Haldi','Baraat','Wedding Ceremony','After Party',...DATA.events.map(e=>e.name)];
+  const unique = [...new Set(evNames)];
+  ['seq-event-filter','viewer-event-select'].forEach(id=>{
+    const sel = document.getElementById(id);
+    if (!sel) return;
+    const cur = sel.value;
+    sel.innerHTML = (id==='seq-event-filter'?'<option value="all">All Events</option>':'') + unique.map(e=>`<option ${e===cur?'selected':''}>${e}</option>`).join('');
+  });
+}
+
+function getSeqStartTime(eventName) {
+  const ev = DATA.events.find(e=>e.name===eventName);
+  if (ev && ev.date && ev.start) return new Date(ev.date+'T'+ev.start);
+  return null;
+}
+
+function renderSequences() {
+  const filter = document.getElementById('seq-event-filter').value;
+  let seqs = DATA.sequences;
+  if (filter !== 'all') seqs = seqs.filter(s=>s.event===filter);
+  seqs = seqs.slice().sort((a,b)=> a.event===b.event ? a.act-b.act : a.event.localeCompare(b.event));
+
+  const body = document.getElementById('sequences-body');
+  body.innerHTML = '';
+  let curEvent = null;
+  seqs.forEach(s=>{
+    if (s.event !== curEvent) {
+      curEvent = s.event;
+      const h = document.createElement('div');
+      h.style.cssText = 'background:var(--gold-light);padding:8px 14px;font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-dark);border-bottom:1px solid var(--border)';
+      h.textContent = '📅 ' + s.event;
+      body.appendChild(h);
+    }
+    const row = document.createElement('div');
+    row.className = 'sequence-item';
+    row.innerHTML = `
+      <div class="seq-cell seq-num">${s.act}</div>
+      <div class="seq-cell" style="font-size:11px;color:var(--muted)">${s.duration} min</div>
+      <div class="seq-cell" style="font-weight:500">${s.performer}</div>
+      <div class="seq-cell"><span class="type-pill type-${s.type}">${s.type}</span></div>
+      <div class="seq-cell" style="color:var(--muted);font-size:12px;flex:1;justify-content:space-between">
+        <span>${s.notes||''}</span>
+        <button class="btn btn-danger btn-sm" onclick="DATA.sequences=DATA.sequences.filter(r=>r.id!=${s.id});renderSequences();renderViewer()">✕</button>
+      </div>
+    `;
+    body.appendChild(row);
+  });
+  if (seqs.length===0) body.innerHTML = '<div style="text-align:center;padding:40px;color:var(--muted)">No sequences yet — add acts above</div>';
+
+  // Duration summary
+  const summary = document.getElementById('seq-duration-summary');
+  const eventTotals = {};
+  DATA.sequences.forEach(s=>{ eventTotals[s.event]=(eventTotals[s.event]||0)+s.duration; });
+  summary.innerHTML = '<div style="display:flex;gap:10px;flex-wrap:wrap">' +
+    Object.entries(eventTotals).map(([ev,mins])=>`
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:8px;padding:10px 16px;min-width:140px">
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted)">${ev}</div>
+        <div style="font-size:20px;font-family:'Cormorant Garamond',serif;font-weight:600;color:var(--rose-dark);margin-top:4px">${(mins/60).toFixed(1)} hrs</div>
+        <div style="font-size:11px;color:var(--muted)">${mins} min · ${DATA.sequences.filter(s=>s.event===ev).length} acts</div>
+      </div>`).join('') + '</div>';
+}
+
+function addSeqModal(editId) {
+  const s = editId ? DATA.sequences.find(r=>r.id===editId) : {id:uid(),event:document.getElementById('seq-event-filter').value!=='all'?document.getElementById('seq-event-filter').value:'Sangeet',act:1,performer:'',duration:10,type:'Performance',notes:''};
+  const evNames = ['Sangeet','Reception','Mehendi','Haldi','Baraat','Wedding Ceremony','After Party',...DATA.events.map(e=>e.name)];
+  const unique = [...new Set(evNames)];
+  _modalSave = ()=>{
+    s.event = document.getElementById('m-sevent').value;
+    s.act = Number(document.getElementById('m-sact').value)||1;
+    s.performer = document.getElementById('m-sperf').value;
+    s.duration = Number(document.getElementById('m-sdur').value)||5;
+    s.type = document.getElementById('m-stype').value;
+    s.notes = document.getElementById('m-snotes').value;
+    if (!editId) DATA.sequences.push(s);
+    renderSequences(); renderViewer(); closeModal(); toast('Act saved');
+  };
+  document.getElementById('modal-title').textContent = 'Add Act to Sequence';
+  document.getElementById('modal-body').innerHTML = `
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Event</label>
+        <select id="m-sevent" class="form-control">${unique.map(e=>`<option ${e===s.event?'selected':''}>${e}</option>`).join('')}</select>
+      </div>
+      <div class="form-group"><label class="form-label">Act #</label><input id="m-sact" type="number" class="form-control" value="${s.act}" min="1"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Performer / Person</label><input id="m-sperf" class="form-control" value="${s.performer}" placeholder="e.g. Bride's Friends - Group Dance"></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Duration (minutes)</label><input id="m-sdur" type="number" class="form-control" value="${s.duration}" min="1"></div>
+      <div class="form-group"><label class="form-label">Type</label>
+        <select id="m-stype" class="form-control">${seqTypes.map(t=>`<option ${t===s.type?'selected':''}>${t}</option>`).join('')}</select>
+      </div>
+    </div>
+    <div class="form-group"><label class="form-label">Description / Notes</label><textarea id="m-snotes" class="form-control" rows="2">${s.notes}</textarea></div>
+  `;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+// ─── VIEWER ────────────────────────────────────────────────────────────────
+function renderViewer() {
+  const sel = document.getElementById('viewer-event-select');
+  const chosen = sel ? sel.value : 'Sangeet';
+  document.getElementById('viewer-title').textContent = chosen + ' — Run of Show';
+
+  let seqs = DATA.sequences.filter(s=>s.event===chosen).sort((a,b)=>a.act-b.act);
+  const body = document.getElementById('viewer-body');
+  const empty = document.getElementById('viewer-empty');
+
+  if (seqs.length===0) { body.innerHTML=''; empty.style.display='block'; document.getElementById('viewer-stats').innerHTML=''; return; }
+  empty.style.display='none';
+
+  const totalMins = seqs.reduce((a,s)=>a+s.duration,0);
+  document.getElementById('viewer-stats').innerHTML = `
+    <div style="font-size:13px;color:var(--muted)">${seqs.length} acts</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:var(--rose-dark)">${(totalMins/60).toFixed(1)} hrs total</div>
+    <div style="font-size:11px;color:var(--muted)">${totalMins} minutes</div>
+  `;
+
+  body.innerHTML = '';
+  let elapsed = 0;
+  const evData = DATA.events.find(e=>e.name===chosen);
+  let baseTime = evData && evData.start ? evData.start : '19:00';
+
+  seqs.forEach(s=>{
+    const [bh,bm] = baseTime.split(':').map(Number);
+    const startMin = bh*60 + bm + elapsed;
+    const h = Math.floor(startMin/60)%24;
+    const m = startMin%60;
+    const timeStr = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+
+    const row = document.createElement('div');
+    row.className = 'sequence-item';
+    row.innerHTML = `
+      <div class="seq-cell seq-num">${s.act}</div>
+      <div class="seq-cell" style="font-size:13px;font-weight:500;color:var(--rose-dark)">${timeStr}</div>
+      <div class="seq-cell" style="font-weight:500">${s.performer}</div>
+      <div class="seq-cell" style="color:var(--muted)">${s.duration} min</div>
+      <div class="seq-cell" style="flex:1;gap:10px;display:flex;align-items:center;flex-wrap:wrap">
+        <span class="type-pill type-${s.type}">${s.type}</span>
+        <span style="font-size:12px;color:var(--muted)">${s.notes||''}</span>
+      </div>
+    `;
+    body.appendChild(row);
+    elapsed += s.duration;
+  });
+}
+
+// ─── GUESTS ────────────────────────────────────────────────────────────────
+const rsvpOptions = ['✅ Attending','❌ Not Attending','⏳ Pending','🎁 Confirmed+Gift'];
+function renderGuests() {
+  let guests = DATA.guests;
+  const f = currentGuestFilter;
+  if (f!=='all') {
+    if (f==='✅ Attending') guests = guests.filter(g=>g.rsvp===f);
+    else if (f==='⏳ Pending') guests = guests.filter(g=>g.rsvp===f);
+    else if (f==='VIP 👑') guests = guests.filter(g=>g.category==='VIP 👑');
+    else guests = guests.filter(g=>g.side===f);
+  }
+  document.getElementById('g-total').textContent = DATA.guests.length;
+  document.getElementById('g-yes').textContent = DATA.guests.filter(g=>g.rsvp==='✅ Attending').length;
+  document.getElementById('g-no').textContent = DATA.guests.filter(g=>g.rsvp==='❌ Not Attending').length;
+  document.getElementById('g-pending').textContent = DATA.guests.filter(g=>g.rsvp==='⏳ Pending').length;
+
+  const tbody = document.getElementById('guest-tbody');
+  tbody.innerHTML = '';
+  guests.forEach(g=>{
+    const rsvpOpts = rsvpOptions.map(r=>`<option ${r===g.rsvp?'selected':''}>${r}</option>`).join('');
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><input class="editable" value="${g.name}" onchange="DATA.guests.find(r=>r.id==${g.id}).name=this.value"></td>
+      <td><select class="editable" onchange="DATA.guests.find(r=>r.id==${g.id}).side=this.value"><option>Bride's Side</option><option ${g.side==="Groom's Side"?"selected":""}>Groom's Side</option><option ${g.side==="Both"?"selected":""}>Both</option><option ${g.side==="Friends"?"selected":""}>Friends</option></select></td>
+      <td><input class="editable" value="${g.relation}"></td>
+      <td><select class="editable" onchange="DATA.guests.find(r=>r.id==${g.id}).rsvp=this.value;renderGuests()">${rsvpOpts}</select></td>
+      <td><select class="editable" onchange="DATA.guests.find(r=>r.id==${g.id}).category=this.value"><option>Family</option><option ${g.category==='VIP 👑'?'selected':''}>VIP 👑</option><option ${g.category==='Friends'?'selected':''}>Friends</option><option ${g.category==='Colleagues'?'selected':''}>Colleagues</option></select></td>
+      <td style="text-align:center"><select class="editable" style="width:50px"><option ${g.kids==='No'?'selected':''}>No</option><option ${g.kids==='Yes'?'selected':''}>Yes</option></select></td>
+      <td><input class="editable" value="${g.events}"></td>
+      <td><input class="editable" value="${g.notes||''}"></td>
+      <td><button class="btn btn-danger btn-sm" onclick="DATA.guests=DATA.guests.filter(r=>r.id!=${g.id});renderGuests()">✕</button></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+function filterGuests(f, el) {
+  document.querySelectorAll('#tab-guests .filter-chip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active'); currentGuestFilter = f; renderGuests();
+}
+function addGuestModal() {
+  _modalSave = ()=>{
+    DATA.guests.push({id:uid(),name:document.getElementById('m-gname').value,side:document.getElementById('m-gside').value,relation:document.getElementById('m-grel').value,rsvp:'⏳ Pending',category:'Family',kids:'No',events:'',notes:''});
+    renderGuests(); closeModal(); toast('Guest added');
+  };
+  document.getElementById('modal-title').textContent = 'Add Guest';
+  document.getElementById('modal-body').innerHTML = `
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Name</label><input id="m-gname" class="form-control" placeholder="Full name"></div>
+      <div class="form-group"><label class="form-label">Side</label><select id="m-gside" class="form-control"><option>Bride's Side</option><option>Groom's Side</option><option>Both</option><option>Friends</option></select></div>
+    </div>
+    <div class="form-group"><label class="form-label">Relation</label><input id="m-grel" class="form-control" placeholder="e.g. Uncle, Friend"></div>
+  `;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+// ─── CATERING ──────────────────────────────────────────────────────────────
+function renderCatering() {
+  const tbody = document.getElementById('catering-tbody');
+  tbody.innerHTML = '';
+  let total = 0;
+  DATA.catering.forEach(c=>{
+    const t = fmtNum(c.guests)*fmtNum(c.perPlate);
+    total += t;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><input class="editable" value="${c.event}" onchange="DATA.catering.find(r=>r.id==${c.id}).event=this.value"></td>
+      <td style="text-align:center"><input class="editable" type="number" style="text-align:center;width:70px" value="${c.guests}" onchange="DATA.catering.find(r=>r.id==${c.id}).guests=Number(this.value)||0;renderCatering()"></td>
+      <td><input class="editable" value="${c.menu}" onchange="DATA.catering.find(r=>r.id==${c.id}).menu=this.value"></td>
+      <td style="text-align:center"><input class="editable" type="number" style="text-align:center;width:80px" value="${c.perPlate}" onchange="DATA.catering.find(r=>r.id==${c.id}).perPlate=Number(this.value)||0;renderCatering()"></td>
+      <td style="text-align:right;font-weight:600">${fmt(t)}</td>
+      <td><input class="editable" value="${c.caterer||''}" onchange="DATA.catering.find(r=>r.id==${c.id}).caterer=this.value"></td>
+      <td><button class="btn btn-danger btn-sm" onclick="DATA.catering=DATA.catering.filter(r=>r.id!=${c.id});renderCatering()">✕</button></td>
+    `;
+    tbody.appendChild(tr);
+  });
+  document.getElementById('cat-total').textContent = fmt(total);
+}
+function addCateringRow() {
+  DATA.catering.push({id:uid(),event:'New Event',guests:0,menu:'',perPlate:0,caterer:''});
+  renderCatering();
+}
+
+// ─── GIFTS ─────────────────────────────────────────────────────────────────
+function renderGifts() {
+  document.getElementById('gift-total').textContent = DATA.gifts.length;
+  document.getElementById('gift-cash').textContent = fmt(DATA.gifts.filter(g=>['Cash','Cheque'].includes(g.type)).reduce((a,g)=>a+fmtNum(g.amount),0));
+  document.getElementById('gift-items').textContent = DATA.gifts.filter(g=>g.type==='Gift Item').length;
+  document.getElementById('gift-ty').textContent = DATA.gifts.filter(g=>g.thankyou==='Pending').length;
+
+  const tbody = document.getElementById('gift-tbody');
+  tbody.innerHTML = '';
+  DATA.gifts.forEach(g=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><input class="editable" value="${g.name}"></td>
+      <td><input class="editable" value="${g.relation}"></td>
+      <td><select class="editable" onchange="DATA.gifts.find(r=>r.id==${g.id}).type=this.value;renderGifts()"><option ${g.type==='Cash'?'selected':''}>Cash</option><option ${g.type==='Cheque'?'selected':''}>Cheque</option><option ${g.type==='Gift Item'?'selected':''}>Gift Item</option><option ${g.type==='Gold'?'selected':''}>Gold</option><option ${g.type==='Silver'?'selected':''}>Silver</option><option>Voucher</option><option>Other</option></select></td>
+      <td><input class="editable" value="${g.amount}" onchange="DATA.gifts.find(r=>r.id==${g.id}).amount=this.value;renderGifts()"></td>
+      <td><input class="editable" value="${g.event}"></td>
+      <td><select class="editable" onchange="DATA.gifts.find(r=>r.id==${g.id}).thankyou=this.value;renderGifts()"><option ${g.thankyou==='Pending'?'selected':''}>Pending</option><option ${g.thankyou==='Sent ✅'?'selected':''}>Sent ✅</option><option>Not Required</option></select></td>
+      <td><input class="editable" value="${g.notes||''}"></td>
+      <td><button class="btn btn-danger btn-sm" onclick="DATA.gifts=DATA.gifts.filter(r=>r.id!=${g.id});renderGifts()">✕</button></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+function addGiftRow() {
+  DATA.gifts.push({id:uid(),name:'',relation:'',type:'Cash',amount:'',event:'Wedding',thankyou:'Pending',notes:''});
+  renderGifts();
+}
+
+// ─── SHOTS ─────────────────────────────────────────────────────────────────
+function renderShots() {
+  const captured = DATA.shots.filter(s=>s.status==='Captured ✅').length;
+  document.getElementById('shots-captured').textContent = captured + ' Captured';
+  document.getElementById('shots-pending').textContent = (DATA.shots.length - captured) + ' Pending';
+  const tbody = document.getElementById('shots-tbody');
+  tbody.innerHTML = '';
+  DATA.shots.forEach(s=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><input class="editable" value="${s.event}"></td>
+      <td><input class="editable" value="${s.desc}" style="width:200px"></td>
+      <td><input class="editable" value="${s.people}"></td>
+      <td><select class="editable" onchange="DATA.shots.find(r=>r.id==${s.id}).priority=this.value"><option ${s.priority.includes('⭐⭐⭐')?'selected':''}>⭐⭐⭐ Must Have</option><option ${s.priority.includes('⭐⭐')&&!s.priority.includes('⭐⭐⭐')?'selected':''}>⭐⭐ Should Have</option><option ${s.priority==='⭐ Nice to Have'?'selected':''}>⭐ Nice to Have</option></select></td>
+      <td><select class="editable" onchange="DATA.shots.find(r=>r.id==${s.id}).status=this.value;renderShots()"><option ${s.status==='Pending'?'selected':''}>Pending</option><option ${s.status==='Captured ✅'?'selected':''}>Captured ✅</option><option ${s.status==='Missed ❌'?'selected':''}>Missed ❌</option></select></td>
+      <td><button class="btn btn-danger btn-sm" onclick="DATA.shots=DATA.shots.filter(r=>r.id!=${s.id});renderShots()">✕</button></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+function addShotRow() {
+  DATA.shots.push({id:uid(),event:'',desc:'',people:'',priority:'⭐⭐⭐ Must Have',status:'Pending'});
+  renderShots();
+}
+
+// ─── DASHBOARD ─────────────────────────────────────────────────────────────
+function updateDashboard() {
+  const totalBudget = DATA.budget.reduce((a,r)=>a+calcBudgeted(r),0);
+  const totalSpent = DATA.budget.reduce((a,r)=>a+fmtNum(r.spent),0);
+  const pct = totalBudget ? totalSpent/totalBudget : 0;
+  document.getElementById('kpi-budget').textContent = fmt(totalBudget);
+  document.getElementById('kpi-spent').textContent = fmt(totalSpent);
+  document.getElementById('kpi-spent-pct').textContent = Math.round(pct*100)+'% of budget';
+  const bar = document.getElementById('spend-bar');
+  bar.style.width = Math.min(pct*100,100)+'%';
+  if (pct > 1) bar.classList.add('danger'); else bar.classList.remove('danger');
+
+  const vendorsBooked = DATA.vendors.filter(v=>['Booked','Advance Paid','Fully Paid'].includes(v.status)).length;
+  document.getElementById('kpi-vendors').textContent = vendorsBooked;
+  document.getElementById('kpi-vendors-sub').textContent = 'of ' + DATA.vendors.length + ' total vendors';
+
+  const done = DATA.checklist.filter(i=>i.status==='done').length;
+  const total = DATA.checklist.length;
+  const taskPct = total ? done/total : 0;
+  document.getElementById('kpi-tasks').textContent = Math.round(taskPct*100)+'%';
+  document.getElementById('kpi-tasks-sub').textContent = done+' of '+total+' tasks';
+  document.getElementById('task-bar').style.width = (taskPct*100)+'%';
+
+  // Budget bars
+  const bb = document.getElementById('dash-budget-bars');
+  bb.innerHTML = '';
+  DATA.budget.slice(0,6).forEach(row=>{
+    const budgeted = calcBudgeted(row);
+    const spent = fmtNum(row.spent);
+    const pctRow = budgeted ? Math.min(spent/budgeted,1) : 0;
+    const over = spent > budgeted;
+    bb.innerHTML += `
+      <div class="budget-cat-row">
+        <div class="cat-name">${row.category}</div>
+        <div class="cat-bar-wrap">
+          <div class="cat-bar-bg"><div class="cat-bar-fill ${over?'over':''}" style="width:${pctRow*100}%"></div></div>
+          <div class="cat-amounts">${fmt(spent)} of ${fmt(budgeted)}</div>
+        </div>
+        <div class="cat-variance ${over?'neg':'pos'}">${over?'-':'+'}${fmt(Math.abs(budgeted-spent))}</div>
+      </div>`;
+  });
+
+  // Events
+  const el = document.getElementById('dash-events-list');
+  el.innerHTML = '';
+  const upcoming = DATA.events.filter(e=>e.date && new Date(e.date)>=new Date()).slice(0,4);
+  if (upcoming.length===0) el.innerHTML='<div style="color:var(--muted);font-size:13px">Set event dates to see upcoming events</div>';
+  upcoming.forEach(ev=>{
+    const days = Math.ceil((new Date(ev.date)-new Date())/86400000);
+    el.innerHTML += `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)">
+      <div><div style="font-size:13px;font-weight:500">${ev.name}</div><div style="font-size:11px;color:var(--muted)">${ev.venue}</div></div>
+      <span class="badge badge-rose">${days}d away</span>
+    </div>`;
+  });
+
+  // Checklist summary
+  const cs = document.getElementById('dash-checklist-summary');
+  const phases = ['Pre-Wedding','Wedding Day','Post-Wedding'];
+  cs.innerHTML = phases.map(p=>{
+    const phItems = DATA.checklist.filter(i=>i.phase===p);
+    const phDone = phItems.filter(i=>i.status==='done').length;
+    const phPct = phItems.length ? phDone/phItems.length : 0;
+    return `<div style="margin-bottom:14px">
+      <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px">
+        <span style="font-weight:500">${p}</span><span style="color:var(--muted)">${phDone}/${phItems.length}</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:${phPct*100}%"></div></div>
+    </div>`;
+  }).join('');
+
+  // Vendor summary
+  const vs = document.getElementById('dash-vendor-summary');
+  const statCounts = {};
+  DATA.vendors.forEach(v=>{ statCounts[v.status]=(statCounts[v.status]||0)+1; });
+  vs.innerHTML = Object.entries(statCounts).map(([s,c])=>`
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border)">
+      <span style="font-size:13px">${s}</span>
+      <span class="badge badge-muted">${c}</span>
+    </div>`).join('');
+}
+
+// ─── MODAL ─────────────────────────────────────────────────────────────────
+function closeModal() { document.getElementById('modal-overlay').classList.remove('open'); _modalSave=null; }
+function saveModal() { if (_modalSave) _modalSave(); }
+function showAddModal() {
+  const active = document.querySelector('.tab-panel.active')?.id?.replace('tab-','');
+  if (active==='vendors') addVendorRow();
+  else if (active==='checklist') addCheckItem();
+  else if (active==='events') addEventModal();
+  else if (active==='sequences') addSeqModal();
+  else if (active==='guests') addGuestModal();
+  else if (active==='budget') addBudgetRow();
+  else toast('Select a tab and click + Add there');
+}
+document.getElementById('modal-overlay').addEventListener('click', e=>{ if(e.target===e.currentTarget) closeModal(); });
+
+// ─── EXPORT ────────────────────────────────────────────────────────────────
+function exportData() {
+  const json = JSON.stringify(DATA, null, 2);
+  const blob = new Blob([json], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'wedding_data.json';
+  a.click();
+  toast('Data exported as JSON');
+}
+
+// ─── RENDER ALL ────────────────────────────────────────────────────────────
+function renderAll() {
+  recalcBudget();
+  renderPayments();
+  renderVendors();
+  renderChecklist();
+  renderEvents();
+  updateSeqSelects();
+  renderSequences();
+  renderViewer();
+  renderGuests();
+  renderCatering();
+  renderGifts();
+  renderShots();
+  updateDashboard();
+}
+
+renderAll();
+</script>
+</body>
+</html>
